@@ -198,7 +198,49 @@ public:
         }
         std::cout << std::endl;
     }
+
+     class iterator
+        {
+            public:
+                typedef iterator self_type;
+                typedef T value_type;
+                typedef T& reference;
+                typedef T* pointer;
+                typedef std::forward_iterator_tag iterator_category;
+                typedef int difference_type;
+                iterator(double_list<T>::node*  ptr) : ptr_(ptr), prev_(nullptr) { }
+                self_type operator++() { 
+                    self_type i = *this;
+                    //ptr_++;
+                    double_list<T>::node* tmp = ptr_;
+                    ptr_ = ptr_->next(prev_);
+                    prev_ = tmp;
+                    return i; }
+                self_type operator++(int junk) { 
+                    double_list<T>::node* tmp = ptr_;
+                    ptr_ = ptr_->next(prev_);
+                    prev_ = tmp;
+                     return *this; }
+                reference operator*() { return ptr_->value_; }
+                pointer operator->() { return &(ptr_->value_); }
+                bool operator==(const self_type& rhs) { return ptr_ == rhs.ptr_; }
+                bool operator!=(const self_type& rhs) { return ptr_ != rhs.ptr_; }
+            private:
+                double_list<T>::node* ptr_;
+                double_list<T>::node* prev_;
+        };
+
+    iterator begin(){
+        return iterator(head_);
+    }
+
+    iterator end()
+    {
+        return iterator(nullptr); // not correct
+    }
+
 };
+
 
 using namespace std;
 
@@ -219,6 +261,11 @@ int main(int, char**){
     ll.pop_back();
     cout << ll.size() << endl;
     ll.print();
-    ll.clear();
+    
+    for ( auto&& it : ll )
+    {
+        cout << it << " ";   
+    }
+    cout << endl;
     return EXIT_SUCCESS;
 }
