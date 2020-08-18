@@ -104,7 +104,7 @@ public:
         //delayed
     }
 
-    void push_back( T elem)
+    void push_back( const T& elem)
     {
         //insert after tail
         if ( head_ == nullptr)
@@ -144,7 +144,7 @@ public:
         }
     }
 
-    void push_front( T elem){
+    void push_front(const T& elem){
 
         //insert before head
         if ( head_ == nullptr)
